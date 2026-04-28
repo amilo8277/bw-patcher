@@ -104,7 +104,7 @@ class Ultra4Patcher(LKS32Patcher):
         ret.append(("speed_limit_sport_value", hex(speed_ofs), pre.hex(), speed.hex()))
 
         pre = self.data[ofs:ofs+2]
-        post = self.assembly(f"ldr r3,[pc, #{ldr_ofs}]")
+        post = self.assembly(f"ldr r1,[pc, #{ldr_ofs}]")  # must be r1: replaces `movs r1,#0xfc`, followed by `strh r1,[r0,#0x2]`
         assert len(post) == 2, "Wrong length of post bytes"
         self.data[ofs:ofs+2] = post
         ret.append(("speed_limit_sport", hex(ofs), pre.hex(), post.hex()))
